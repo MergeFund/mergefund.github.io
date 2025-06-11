@@ -16,6 +16,7 @@ import {
   CheckCircle,
   GitPullRequest,
   Coins,
+  X,
 } from "lucide-react";
 import roundedLogoNoWords from "./assets/roundedLogoNoWords.png";
 
@@ -27,6 +28,8 @@ function App() {
     githubProfile: "",
   });
 
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
@@ -36,15 +39,73 @@ function App() {
     });
   };
 
+  const scrollToWaitlist = () => {
+    const element = document.getElementById('waitlist-section');
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // In a real app, this would connect to your backend or email service
     console.log("Form submitted:", formData);
-    alert("Thanks for joining the waitlist! We'll be in touch soon.");
+    setShowSuccessPopup(true);
+  };
+
+  const closePopup = () => {
+    setShowSuccessPopup(false);
   };
 
   return (
     <div className="min-h-screen bg-[#1A1A2E] text-white font-['Poppins']">
+      {/* Success Popup Modal */}
+      {showSuccessPopup && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-[#1A1A2E] border border-purple-500/30 rounded-3xl p-8 max-w-md w-full mx-auto relative">
+            <button
+              onClick={closePopup}
+              className="absolute top-4 right-4 w-8 h-8 rounded-full bg-gradient-to-r from-[#8A2BE2]/20 to-[#FF69B4]/20 border border-purple-500/30 flex items-center justify-center hover:bg-gradient-to-r hover:from-[#8A2BE2] hover:to-[#FF69B4] transition-all duration-300 group"
+            >
+              <X className="w-4 h-4 text-purple-400 group-hover:text-white" />
+            </button>
+            
+            <div className="text-center">
+              <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-r from-[#8A2BE2] to-[#FF69B4] flex items-center justify-center">
+                <CheckCircle className="w-8 h-8 text-white" />
+              </div>
+              
+              <h3 className="text-2xl font-bold mb-4 bg-gradient-to-r from-[#8A2BE2] to-[#FF69B4] bg-clip-text text-transparent">
+                Thank You!
+              </h3>
+              
+              <p className="text-gray-300 mb-6 leading-relaxed">
+                We'll be in touch soon. Check out our LinkedIn for updates!
+              </p>
+              
+              <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                <a
+                  href="https://www.linkedin.com/company/107257301/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center space-x-2 bg-gradient-to-r from-[#8A2BE2] to-[#FF69B4] px-6 py-3 rounded-xl font-medium hover:shadow-lg hover:shadow-purple-500/25 transition-all duration-300 transform hover:scale-105"
+                >
+                  <Linkedin className="w-4 h-4" />
+                  <span>Follow us on LinkedIn</span>
+                </a>
+                
+                <button
+                  onClick={closePopup}
+                  className="px-6 py-3 rounded-xl border border-purple-500/30 text-purple-400 hover:bg-purple-500/10 transition-all duration-300"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Navigation */}
       <nav className="relative z-50 px-6 py-4">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
@@ -60,7 +121,10 @@ function App() {
               MergeFund
             </span>
           </div>
-          <button className="bg-gradient-to-r from-[#8A2BE2] to-[#FF69B4] px-6 py-2 rounded-full font-medium hover:shadow-lg hover:shadow-purple-500/25 transition-all duration-300 transform hover:scale-105">
+          <button 
+            onClick={scrollToWaitlist}
+            className="bg-gradient-to-r from-[#8A2BE2] to-[#FF69B4] px-6 py-2 rounded-full font-medium hover:shadow-lg hover:shadow-purple-500/25 transition-all duration-300 transform hover:scale-105"
+          >
             Join Waitlist
           </button>
         </div>
@@ -87,7 +151,10 @@ function App() {
             contributing to open-source projects. Build your reputation while
             earning real rewards.
           </p>
-          <button className="group bg-gradient-to-r from-[#8A2BE2] to-[#FF69B4] px-12 py-4 rounded-full text-lg font-semibold hover:shadow-xl hover:shadow-purple-500/25 transition-all duration-300 transform hover:scale-105 flex items-center space-x-2 mx-auto">
+          <button 
+            onClick={scrollToWaitlist}
+            className="group bg-gradient-to-r from-[#8A2BE2] to-[#FF69B4] px-12 py-4 rounded-full text-lg font-semibold hover:shadow-xl hover:shadow-purple-500/25 transition-all duration-300 transform hover:scale-105 flex items-center space-x-2 mx-auto"
+          >
             <span>Join the Developer Waitlist</span>
             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </button>
@@ -315,7 +382,7 @@ function App() {
       </section>
 
       {/* Sign-Up Form Section */}
-      <section className="px-6 py-20 bg-[#16213E]/50">
+      <section id="waitlist-section" className="px-6 py-20 bg-[#16213E]/50">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-4xl md:text-5xl font-bold mb-8">
             Join the{" "}
