@@ -9,7 +9,8 @@ export default defineConfig({
   },
   build: {
     outDir: 'docs',
+    emptyOutDir: true,
+    assetsDir: 'assets',
   },
-  // base: '/webpage/',
-  base: '/',
+  base: './',
 });
