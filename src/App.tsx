@@ -1,3 +1,5 @@
+import { supabase } from './supabase'; 
+
 import React, { useState } from "react";
 import {
   Github,
@@ -46,16 +48,35 @@ function App() {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // In a real app, this would connect to your backend or email service
-    console.log("Form submitted:", formData);
+  
+    const { name, email, role, githubProfile } = formData;
+  
+    const { error } = await supabase.from('waitlist').insert([
+      {
+        name,
+        email,
+        role,
+        github_profile: githubProfile,
+      },
+    ]);
+  
+    if (error) {
+      console.error('Supabase insert error:', error);
+      alert('Something went wrong. Please try again.');
+      return;
+    }
+  
     setShowSuccessPopup(true);
+    setFormData({
+      name: '',
+      email: '',
+      role: 'developer',
+      githubProfile: '',
+    });
   };
-
-  const closePopup = () => {
-    setShowSuccessPopup(false);
-  };
+  
 
   return (
     <div className="min-h-screen bg-[#1A1A2E] text-white font-['Poppins']">
