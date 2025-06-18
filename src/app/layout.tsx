@@ -11,6 +11,11 @@ const poppins = Poppins({
 export const metadata: Metadata = {
   title: 'MergeFund - Earn Crypto for Solving GitHub Issues',
   description: 'MergeFund incentivizes developers with cryptocurrency rewards for contributing to open-source projects. Build your reputation while earning real rewards.',
+  icons: {
+    icon: "/assets/roundedLogoNoWords.png",          
+    shortcut: "/assets/roundedLogoNoWords.png",
+    apple: "/assets/roundedLogoNoWords.png",
+  },
 }
 
 export default function RootLayout({
