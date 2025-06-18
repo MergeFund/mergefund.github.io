@@ -88,7 +88,29 @@ public/
 
 ## Deployment
 
-The project can be deployed to Vercel, Netlify, or any other platform that supports Next.js.
+### Cloudflare Pages Deployment
+
+1. **Push your code to GitHub**
+
+2. **Connect to Cloudflare Pages**:
+   - Go to [Cloudflare Pages](https://pages.cloudflare.com/)
+   - Click "Create a project"
+   - Connect your GitHub repository
+
+3. **Configure Build Settings**:
+   - **Framework preset**: Next.js
+   - **Build command**: `npm run build`
+   - **Build output directory**: `.next`
+   - **Node.js version**: 18 (or higher)
+
+4. **Add Environment Variables**:
+   In your Cloudflare Pages project settings, add:
+   ```
+   NEXT_PUBLIC_SUPABASE_URL=https://iybchsakopqvccjythby.supabase.co
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+   ```
+
+5. **Deploy**: Click "Save and Deploy"
 
 ### Vercel Deployment
 
@@ -96,6 +118,15 @@ The project can be deployed to Vercel, Netlify, or any other platform that suppo
 2. Connect your repository to Vercel
 3. Add environment variables in Vercel dashboard
 4. Deploy!
+
+## Environment Variables
+
+The following environment variables are required:
+
+- `NEXT_PUBLIC_SUPABASE_URL`: Your Supabase project URL
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY`: Your Supabase anonymous key
+
+**Note**: These variables are prefixed with `NEXT_PUBLIC_` because they need to be available in the browser for client-side Supabase operations.
 
 ## Contributing
 
