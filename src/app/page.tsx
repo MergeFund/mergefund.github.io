@@ -1,6 +1,6 @@
-'use client'
+"use client";
 
-import { supabase } from '../lib/supabase'
+import { supabase } from "../lib/supabase";
 import React, { useState } from "react";
 import {
   Github,
@@ -21,7 +21,7 @@ import {
   Coins,
   X,
 } from "lucide-react";
-import Image from 'next/image'
+import Image from "next/image";
 
 export default function Home() {
   const [formData, setFormData] = useState({
@@ -43,9 +43,9 @@ export default function Home() {
   };
 
   const scrollToWaitlist = () => {
-    const element = document.getElementById('waitlist-section');
+    const element = document.getElementById("waitlist-section");
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+      element.scrollIntoView({ behavior: "smooth" });
     }
   };
 
@@ -55,10 +55,10 @@ export default function Home() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-  
+
     const { name, email, role, githubProfile } = formData;
-  
-    const { error } = await supabase.from('waitlist').insert([
+
+    const { error } = await supabase.from("waitlist").insert([
       {
         name,
         email,
@@ -66,19 +66,19 @@ export default function Home() {
         github_profile: githubProfile,
       },
     ]);
-  
+
     if (error) {
-      console.error('Supabase insert error:', error);
-      alert('Something went wrong. Please try again.');
+      console.error("Supabase insert error:", error);
+      alert("Something went wrong. Please try again.");
       return;
     }
-  
+
     setShowSuccessPopup(true);
     setFormData({
-      name: '',
-      email: '',
-      role: 'developer',
-      githubProfile: '',
+      name: "",
+      email: "",
+      role: "developer",
+      githubProfile: "",
     });
   };
 
@@ -94,20 +94,20 @@ export default function Home() {
             >
               <X className="w-4 h-4 text-purple-400 group-hover:text-white" />
             </button>
-            
+
             <div className="text-center">
               <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-r from-[#8A2BE2] to-[#FF69B4] flex items-center justify-center">
                 <CheckCircle className="w-8 h-8 text-white" />
               </div>
-              
+
               <h3 className="text-2xl font-bold mb-4 bg-gradient-to-r from-[#8A2BE2] to-[#FF69B4] bg-clip-text text-transparent">
                 Thank You!
               </h3>
-              
+
               <p className="text-gray-300 mb-6 leading-relaxed">
                 We'll be in touch soon. Check out our LinkedIn for updates!
               </p>
-              
+
               <div className="flex flex-col sm:flex-row gap-3 justify-center">
                 <a
                   href="https://www.linkedin.com/company/107257301/"
@@ -118,7 +118,7 @@ export default function Home() {
                   <Linkedin className="w-4 h-4" />
                   <span>Follow us on LinkedIn</span>
                 </a>
-                
+
                 <button
                   onClick={closePopup}
                   className="px-6 py-3 rounded-xl border border-purple-500/30 text-purple-400 hover:bg-purple-500/10 transition-all duration-300"
@@ -148,7 +148,7 @@ export default function Home() {
               MergeFund
             </span>
           </div>
-          <button 
+          <button
             onClick={scrollToWaitlist}
             className="bg-gradient-to-r from-[#8A2BE2] to-[#FF69B4] px-6 py-2 rounded-full font-medium hover:shadow-lg hover:shadow-purple-500/25 transition-all duration-300 transform hover:scale-105"
           >
@@ -178,52 +178,13 @@ export default function Home() {
             contributing to open-source projects. Build your reputation while
             earning real rewards.
           </p>
-          <button 
+          <button
             onClick={scrollToWaitlist}
             className="group bg-gradient-to-r from-[#8A2BE2] to-[#FF69B4] px-12 py-4 rounded-full text-lg font-semibold hover:shadow-xl hover:shadow-purple-500/25 transition-all duration-300 transform hover:scale-105 flex items-center space-x-2 mx-auto"
           >
             <span>Join the Developer Waitlist</span>
             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </button>
-
-          {/* Mockup Dashboard */}
-          <div className="mt-20 relative">
-            <div className="bg-gradient-to-r from-[#8A2BE2]/20 to-[#FF69B4]/20 rounded-3xl p-8 backdrop-blur-sm border border-purple-500/20">
-              <div className="bg-[#1A1A2E] rounded-2xl p-6 shadow-2xl">
-                <div className="flex items-center space-x-4 mb-6">
-                  <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-                  <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
-                  <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                  <span className="text-gray-400 text-sm ml-4">
-                    MergeFund Dashboard
-                  </span>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div className="bg-gradient-to-r from-[#8A2BE2]/10 to-[#FF69B4]/10 rounded-xl p-4 border border-purple-500/20">
-                    <div className="flex items-center space-x-2 mb-2">
-                      <Coins className="w-5 h-5 text-purple-400" />
-                      <span className="text-gray-300">Total Earned</span>
-                    </div>
-                    <div className="text-2xl font-bold text-white">$2,450</div>
-                  </div>
-                  <div className="bg-gradient-to-r from-[#8A2BE2]/10 to-[#FF69B4]/10 rounded-xl p-4 border border-purple-500/20">
-                    <div className="flex items-center space-x-2 mb-2">
-                      <GitPullRequest className="w-5 h-5 text-purple-400" />
-                      <span className="text-gray-300">PRs Merged</span>
-                    </div>
-                    <div className="text-2xl font-bold text-white">23</div>
-                  </div>
-                  <div className="bg-gradient-to-r from-[#8A2BE2]/10 to-[#FF69B4]/10 rounded-xl p-4 border border-purple-500/20">
-                    <div className="flex items-center space-x-2 mb-2">
-                      <Star className="w-5 h-5 text-purple-400" />
-                      <span className="text-gray-300">Reputation</span>
-                    </div>
-                    <div className="text-2xl font-bold text-white">4.9</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </section>
 
@@ -275,6 +236,57 @@ export default function Home() {
                 Smart contracts automatically release crypto rewards when pull
                 requests are merged and approved.
               </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* How it looks Section */}
+      <section className="px-6 pb-20 bg-[#16213E]/50">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-4xl md:text-5xl font-bold text-center mb-16">
+            How{" "}
+            <span className="bg-gradient-to-r from-[#8A2BE2] to-[#FF69B4] bg-clip-text text-transparent">
+              It Looks
+            </span>
+          </h2>
+
+          {/* Mockup Dashboard */}
+          <div className="mt-20 relative">
+            <div className="bg-gradient-to-r from-[#8A2BE2]/20 to-[#FF69B4]/20 rounded-3xl p-8 backdrop-blur-sm border border-purple-500/20">
+              <div className="bg-[#1A1A2E] rounded-2xl p-6 shadow-2xl">
+                <div className="flex items-center space-x-4 mb-6">
+                  <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+                  <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                  <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                  <span className="text-gray-400 text-sm ml-4">
+                    MergeFund Dashboard
+                  </span>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="bg-gradient-to-r from-[#8A2BE2]/10 to-[#FF69B4]/10 rounded-xl p-4 border border-purple-500/20">
+                    <div className="flex items-center space-x-2 mb-2">
+                      <Coins className="w-5 h-5 text-purple-400" />
+                      <span className="text-gray-300">Total Earned</span>
+                    </div>
+                    <div className="text-2xl font-bold text-white">$2,450</div>
+                  </div>
+                  <div className="bg-gradient-to-r from-[#8A2BE2]/10 to-[#FF69B4]/10 rounded-xl p-4 border border-purple-500/20">
+                    <div className="flex items-center space-x-2 mb-2">
+                      <GitPullRequest className="w-5 h-5 text-purple-400" />
+                      <span className="text-gray-300">PRs Merged</span>
+                    </div>
+                    <div className="text-2xl font-bold text-white">23</div>
+                  </div>
+                  <div className="bg-gradient-to-r from-[#8A2BE2]/10 to-[#FF69B4]/10 rounded-xl p-4 border border-purple-500/20">
+                    <div className="flex items-center space-x-2 mb-2">
+                      <Star className="w-5 h-5 text-purple-400" />
+                      <span className="text-gray-300">Reputation</span>
+                    </div>
+                    <div className="text-2xl font-bold text-white">4.9</div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -526,4 +538,4 @@ export default function Home() {
       </footer>
     </div>
   );
-} 
+}
