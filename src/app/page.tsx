@@ -242,7 +242,7 @@ export default function Home() {
       </section>
 
       {/* How it looks Section */}
-      <section className="px-6 pb-20 bg-[#16213E]/50">
+      <section className="px-6 py-20 bg-[#2C1F3E]/50">
         <div className="max-w-7xl mx-auto">
           <h2 className="text-4xl md:text-5xl font-bold text-center mb-16">
             How{" "}
