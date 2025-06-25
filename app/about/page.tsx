@@ -26,7 +26,7 @@ export default function AboutPage() {
     },
     {
       title: "Building Momentum: Consensus '25 (Toronto)",
-      description: "After Harvard, Isaac and Damien hopped on a plane to Toronto for the Consensus Hackathon (hosted by EasyA). Goals: Deepen relationships with sponsors, refine the funding-to-merge flow, and demo a rough prototype. Outcomes: Secured early commitments for a $15K seed pool and invaluable API feedback from Circle and GitHub engineers. Isaac made tons of invaluable connections with students at the hackathon, making 300+ new connections on LinkedIn. Achievement: Won 3rd place and $1,500 in prizes.",
+      description: "After Harvard, Isaac and Damien hopped on a plane to Toronto for the Consensus Hackathon (hosted by EasyA). Goals: Deepen relationships with sponsors, refine the funding-to-merge flow, and demo a rough prototype. Outcomes: Secured early commitments for a $15K seed pool and invaluable feedback.",
       icon: <TrendingUp className="w-6 h-6" />,
       color: "bg-blue-500"
     },
@@ -93,7 +93,7 @@ export default function AboutPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <Navbar isLoggedIn={false} onLogout={() => {}} />
+      <Navbar />
 
       {/* Hero Section */}
       <section className="py-24 px-4 bg-gradient-to-br from-purple-600 via-blue-600 to-indigo-700 relative overflow-hidden">

@@ -143,7 +143,7 @@ export default function HackathonsPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <Navbar isLoggedIn={false} onLogout={() => {}} />
+      <Navbar />
 
       {/* Hero Section */}
       <section className="py-24 px-4 bg-gradient-to-br from-purple-600 via-blue-600 to-indigo-700 relative overflow-hidden">

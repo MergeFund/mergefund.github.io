@@ -118,7 +118,7 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-background">
       {/* Use the sophisticated Navbar component */}
-      <Navbar isLoggedIn={isLoggedIn} onLogout={handleLogout} />
+      <Navbar />
 
       {/* Hero Section */}
       <section className="py-24 px-4 bg-background relative overflow-hidden">
@@ -980,7 +980,7 @@ export default function HomePage() {
             <div>
               <div className="flex items-center space-x-2 mb-4">
                 <div className="w-8 h-8 relative">
-                  <img src="/placeholder-logo.png" alt="MergeFund Logo" className="w-full h-full object-contain" />
+                  <img src="/mergefundIcon.png" alt="MergeFund Logo" className="w-full h-full object-contain" />
                 </div>
                 <span className="text-xl font-bold">MergeFund</span>
               </div>

@@ -6,16 +6,16 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent } from "@/components/ui/card"
 import { 
-  Robot, 
+  Bot, 
   X, 
-  PaperPlaneRight,
-  ChatCircleDots,
-  Sparkle,
+  Send,
+  MessageCircle,
+  Sparkles,
   Coins,
   Users,
   Target,
   Rocket
-} from "@phosphor-icons/react"
+} from "lucide-react"
 
 interface Message {
   id: string
@@ -161,20 +161,15 @@ export function AIChatbox({ open, onClose }: { open?: boolean, onClose?: () => v
 
   return (
     <>
-      {/* Chat Toggle Button */}
-      <motion.div
-        className="fixed bottom-6 right-6 z-50"
-        initial={{ scale: 0 }}
-        animate={{ scale: 1 }}
-        transition={{ delay: 1, type: "spring" }}
+      {/* Toggle Button */}
+      <motion.button
+        onClick={handleToggle}
+        className="fixed bottom-6 right-6 w-14 h-14 bg-primary text-primary-foreground rounded-full shadow-lg hover:shadow-xl transition-all duration-200 z-50 flex items-center justify-center"
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.9 }}
       >
-        <Button
-          onClick={handleToggle}
-          className="w-14 h-14 rounded-full bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg"
-        >
-          {isOpen ? <X className="w-6 h-6" /> : <ChatCircleDots className="w-6 h-6" />}
-        </Button>
-      </motion.div>
+        <MessageCircle className="w-6 h-6" />
+      </motion.button>
 
       {/* Chat Window */}
       <AnimatePresence>
@@ -183,7 +178,8 @@ export function AIChatbox({ open, onClose }: { open?: boolean, onClose?: () => v
             initial={{ opacity: 0, scale: 0.8, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.8, y: 20 }}
-            className="fixed bottom-24 right-6 w-96 h-[500px] z-40"
+            transition={{ duration: 0.3, ease: "easeOut" }}
+            className="fixed bottom-24 right-6 w-96 h-[500px] z-50"
           >
             <Card className="w-full h-full shadow-xl border-0 bg-background/95 backdrop-blur-md">
               <CardContent className="p-0 h-full flex flex-col">
@@ -191,13 +187,19 @@ export function AIChatbox({ open, onClose }: { open?: boolean, onClose?: () => v
                 <div className="p-4 border-b border-border bg-gradient-to-r from-primary/10 to-accent/10">
                   <div className="flex items-center gap-3">
                     <div className="w-8 h-8 bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center">
-                      <Robot className="w-5 h-5 text-white" />
+                      <Bot className="w-5 h-5 text-white" />
                     </div>
                     <div>
                       <h3 className="font-semibold text-foreground">Crypto</h3>
                       <p className="text-xs text-muted-foreground">AI Assistant</p>
                     </div>
-                    <Sparkle className="w-4 h-4 text-accent ml-auto" />
+                    <Sparkles className="w-4 h-4 text-accent ml-auto" />
+                    <button
+                      onClick={handleToggle}
+                      className="p-1 hover:bg-muted rounded-md transition-colors"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
                   </div>
                 </div>
 
@@ -208,40 +210,37 @@ export function AIChatbox({ open, onClose }: { open?: boolean, onClose?: () => v
                       key={message.id}
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
-                      className={`flex ${message.isUser ? "justify-end" : "justify-start"}`}
+                      className={`flex ${message.isUser ? 'justify-end' : 'justify-start'}`}
                     >
                       <div
-                        className={`max-w-[80%] p-3 rounded-2xl ${
+                        className={`max-w-[80%] p-3 rounded-lg ${
                           message.isUser
-                            ? "bg-primary text-primary-foreground"
-                            : "bg-muted text-foreground"
+                            ? 'bg-primary text-primary-foreground'
+                            : 'bg-muted text-foreground'
                         }`}
                       >
-                        <p className="text-sm whitespace-pre-line">{message.text}</p>
+                        <div className="whitespace-pre-wrap text-sm">{message.text}</div>
                       </div>
                     </motion.div>
                   ))}
-                  
                   {isTyping && (
                     <motion.div
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
                       className="flex justify-start"
                     >
-                      <div className="bg-muted p-3 rounded-2xl">
+                      <div className="bg-muted text-foreground p-3 rounded-lg">
                         <div className="flex space-x-1">
-                          <div className="w-2 h-2 bg-muted-foreground rounded-full animate-bounce"></div>
-                          <div className="w-2 h-2 bg-muted-foreground rounded-full animate-bounce" style={{ animationDelay: "0.1s" }}></div>
-                          <div className="w-2 h-2 bg-muted-foreground rounded-full animate-bounce" style={{ animationDelay: "0.2s" }}></div>
+                          <div className="w-2 h-2 bg-foreground rounded-full animate-bounce"></div>
+                          <div className="w-2 h-2 bg-foreground rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                          <div className="w-2 h-2 bg-foreground rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
                         </div>
                       </div>
                     </motion.div>
                   )}
-                  
                   <div ref={messagesEndRef} />
                 </div>
 
-                {/* Suggested Questions */}
                 {messages.length === 1 && (
                   <div className="p-4 border-t border-border">
                     <p className="text-xs text-muted-foreground mb-2">Suggested questions:</p>
@@ -282,7 +281,7 @@ export function AIChatbox({ open, onClose }: { open?: boolean, onClose?: () => v
                       size="icon"
                       className="w-10 h-10"
                     >
-                      <PaperPlaneRight className="w-4 h-4" />
+                      <Send className="w-4 h-4" />
                     </Button>
                   </div>
                 </div>

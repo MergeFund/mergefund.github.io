@@ -1,36 +1,22 @@
 "use client"
 
 import type React from "react"
-
 import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
-import { Bell, Settings, User, LogOut, Code, Trophy, TrendingUp, Zap } from "lucide-react"
-import {
-  DropdownMenu,
-  DropdownMenuTrigger,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-} from "@/components/ui/dropdown-menu"
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
+import { Menu, X } from "lucide-react"
 
-export function Navbar({
-  isLoggedIn = false,
-  onLogout = () => {},
-}: {
-  isLoggedIn?: boolean
-  onLogout?: () => void
-}) {
+export function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [visible, setVisible] = useState(true)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const timer = useRef<NodeJS.Timeout | null>(null)
   const lastScrollY = useRef(0)
   const router = useRouter()
 
-  // 1) scroll down hides, scroll up shows & schedules auto-show
+  // Scroll behavior
   useEffect(() => {
     lastScrollY.current = window.scrollY
     const onScroll = () => {
@@ -53,7 +39,7 @@ export function Navbar({
     }
   }, [])
 
-  // 2) peek on mouse at top of viewport
+  // Mouse peek behavior
   useEffect(() => {
     const onMouseMove = (e: MouseEvent) => {
       if (e.clientY < 50) {
@@ -65,40 +51,30 @@ export function Navbar({
     return () => window.removeEventListener("mousemove", onMouseMove)
   }, [])
 
-  // 3) container hover keeps it visible and cancels auto-hide
   const handleMouseEnter = () => {
     setVisible(true)
     if (timer.current) clearTimeout(timer.current)
   }
+  
   const handleMouseLeave = () => {
     if (timer.current) clearTimeout(timer.current)
     timer.current = setTimeout(() => setVisible(true), 3000)
   }
 
-  const handleLogout = () => {
-    if (onLogout) onLogout()
-    router.push("/")
-  }
-
   const navigateTo = (path: string) => {
-    // Public pages that don't require login
-    const publicPages = ['/hackathons', '/about', '/support', '/careers', '/waitlist']
-    
-    if (isLoggedIn || publicPages.includes(path)) {
-      router.push(path)
-    } else {
-      // Redirect all protected routes to waitlist for pre-launch
-      router.push("/waitlist")
-    }
+    // During pre-launch, all navigation goes to waitlist
+    router.push("/waitlist")
+    setMobileMenuOpen(false)
   }
 
-  const navItems: { href: string; label: string; Icon: React.ComponentType<any> }[] = [
-    { label: "Bounties", href: "/bounties", Icon: Code },
-    { label: "Leaderboard", href: "/leaderboard", Icon: Trophy },
-    { label: "Discover", href: "/discover", Icon: TrendingUp },
-    { label: "Hackathons", href: "/hackathons", Icon: Zap },
-    { label: "About", href: "/about", Icon: User },
-    { label: "Profile", href: "/profile/johndeveloper", Icon: User },
+  // Full navigation items for pre-launch (all redirect to waitlist)
+  const navItems = [
+    { label: "Discover", href: "/waitlist" },
+    { label: "Bounties", href: "/waitlist" },
+    { label: "Projects", href: "/waitlist" },
+    { label: "Leaderboard", href: "/waitlist" },
+    { label: "About", href: "/about" },
+    { label: "Hackathons", href: "/hackathons" },
   ]
 
   return (
@@ -110,7 +86,7 @@ export function Navbar({
           className={`
             flex items-center justify-between
             bg-background/90 backdrop-blur-md shadow-md
-            rounded-full px-6
+            rounded-full px-4 md:px-6
             transition-all duration-500 ease-in-out
             ${scrolled ? "py-2" : "py-3"}
             ${visible ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-full pointer-events-none"}
@@ -119,109 +95,77 @@ export function Navbar({
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2">
             <div className="w-8 h-8 relative">
-              <Image src="/placeholder-logo.png" alt="MergeFund Logo" fill className="object-contain" />
+              <Image src="/mergefundIcon.png" alt="MergeFund Logo" fill className="object-contain" />
             </div>
-            <span className="text-lg font-bold text-accent">MergeFund</span>
+            <span className="text-lg font-bold text-accent hidden sm:block">MergeFund</span>
           </Link>
 
-          {/* Nav links - show different items based on login status */}
-          <nav className="hidden md:flex items-center space-x-4">
-            {isLoggedIn ? (
-              // Logged in navigation
-              navItems.map(({ href, Icon, label }) => (
-                <Link
-                  key={href}
-                  href={href}
-                  className="
-                    group flex items-center px-3 py-1
-                    text-foreground hover:text-accent
-                    transition-colors duration-200
-                    rounded-full
-                    hover:bg-accent/10
-                  "
-                >
-                  <Icon className="w-4 h-4 mr-1 transition-colors duration-200 group-hover:text-accent" />
-                  <span className="text-sm">{label}</span>
-                </Link>
-              ))
-            ) : (
-              // Not logged in navigation
-              <>
-                <button
-                  onClick={() => navigateTo("/discover")}
-                  className="text-foreground hover:text-accent transition-colors duration-200 px-3 py-1 rounded-full hover:bg-accent/10"
-                >
-                  Discover
-                </button>
-                <button
-                  onClick={() => navigateTo("/bounties")}
-                  className="text-foreground hover:text-accent transition-colors duration-200 px-3 py-1 rounded-full hover:bg-accent/10"
-                >
-                  Bounties
-                </button>
-                <button
-                  onClick={() => navigateTo("/leaderboard")}
-                  className="text-foreground hover:text-accent transition-colors duration-200 px-3 py-1 rounded-full hover:bg-accent/10"
-                >
-                  Leaderboard
-                </button>
-                <button
-                  onClick={() => navigateTo("/hackathons")}
-                  className="text-foreground hover:text-accent transition-colors duration-200 px-3 py-1 rounded-full hover:bg-accent/10"
-                >
-                  Hackathons
-                </button>
-                <button
-                  onClick={() => navigateTo("/about")}
-                  className="text-foreground hover:text-accent transition-colors duration-200 px-3 py-1 rounded-full hover:bg-accent/10"
-                >
-                  About
-                </button>
-              </>
-            )}
+          {/* Desktop Navigation */}
+          <nav className="hidden lg:flex items-center space-x-6">
+            {navItems.map(({ href, label }) => (
+              <button
+                key={href}
+                onClick={() => navigateTo(href)}
+                className="text-foreground hover:text-accent transition-colors duration-200 px-3 py-1 rounded-full hover:bg-accent/10"
+              >
+                {label}
+              </button>
+            ))}
           </nav>
 
-          {/* Actions */}
-          <div className="flex items-center space-x-4">
-            {isLoggedIn ? (
-              <>
-                <Button variant="ghost" size="icon" className="relative">
-                  <Bell className="w-5 h-5 text-foreground" />
-                  <span className="absolute -top-1 -right-1 h-2 w-2 bg-red-500 rounded-full"></span>
-                </Button>
+          {/* CTA Button */}
+          <div className="flex items-center space-x-2 md:space-x-4">
+            <Button
+              onClick={() => router.push("/waitlist")}
+              className="bg-primary text-primary-foreground hover:bg-primary/90 text-sm"
+            >
+              Join Waitlist
+            </Button>
 
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" className="p-0">
-                      <Avatar className="h-8 w-8 ring-0 hover:ring-2 hover:ring-accent transition-all">
-                        <AvatarImage src="/placeholder.svg?height=32&width=32" />
-                        <AvatarFallback>
-                          <User className="w-5 h-5" />
-                        </AvatarFallback>
-                      </Avatar>
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                    <DropdownMenuItem onClick={() => router.push("/settings")}>
-                      <Settings className="mr-2 w-4 h-4" /> Settings
-                    </DropdownMenuItem>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem onClick={handleLogout}>
-                      <LogOut className="mr-2 w-4 h-4" /> Log out
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </>
-            ) : (
-              <Button
-                onClick={() => router.push("/waitlist")}
-                className="bg-primary text-primary-foreground hover:bg-primary/90 text-sm"
-              >
-                Get Started
-              </Button>
-            )}
+            {/* Mobile Menu Button */}
+            <Button
+              variant="ghost"
+              size="icon"
+              className="lg:hidden"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            >
+              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            </Button>
           </div>
         </div>
+
+        {/* Mobile Menu */}
+        {mobileMenuOpen && (
+          <div className="lg:hidden absolute top-full left-0 right-0 bg-background/95 backdrop-blur-md shadow-lg rounded-b-2xl border-t border-border/50 mt-2 mx-4">
+            <nav className="p-4 space-y-2">
+              {navItems.map(({ href, label }) => (
+                <button
+                  key={href}
+                  onClick={() => navigateTo(href)}
+                  className="
+                    w-full flex items-center px-4 py-3
+                    text-foreground hover:text-accent hover:bg-accent/10
+                    transition-colors duration-200
+                    rounded-lg
+                  "
+                >
+                  <span>{label}</span>
+                </button>
+              ))}
+              <div className="pt-2 border-t border-border/50">
+                <Button
+                  onClick={() => {
+                    router.push("/waitlist")
+                    setMobileMenuOpen(false)
+                  }}
+                  className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
+                >
+                  Join Waitlist
+                </Button>
+              </div>
+            </nav>
+          </div>
+        )}
       </div>
     </header>
   )

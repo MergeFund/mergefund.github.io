@@ -14,16 +14,16 @@ import {
   ArrowLeft, 
   ArrowRight, 
   Users, 
-  Lightning, 
+  Zap, 
   Gift, 
   Bell, 
   CheckCircle, 
-  GithubLogo, 
-  LinkedinLogo, 
-  Envelope, 
+  Github, 
+  Linkedin, 
+  Mail, 
   User, 
   Briefcase 
-} from "@phosphor-icons/react"
+} from "lucide-react"
 import Link from "next/link"
 import { supabase } from "@/lib/supabase"
 
@@ -98,7 +98,7 @@ export default function WaitlistPage() {
       description: "Be among the first to access the platform when we launch"
     },
     {
-      icon: <Lightning className="w-6 h-6" />,
+      icon: <Zap className="w-6 h-6" />,
       title: "Priority Support",
       description: "Get priority customer support during the beta phase"
     },
@@ -123,7 +123,7 @@ export default function WaitlistPage() {
   if (isSubmitted) {
     return (
       <div className="min-h-screen bg-background">
-        <Navbar isLoggedIn={false} onLogout={() => {}} />
+        <Navbar />
         
         <div className="container mx-auto px-4 py-24">
           <div className="max-w-2xl mx-auto text-center">
@@ -210,7 +210,7 @@ export default function WaitlistPage() {
                 onClick={() => window.open("https://www.linkedin.com/company/mergefund", "_blank")}
                 className="px-8 py-3 h-12 bg-primary text-primary-foreground hover:bg-primary/90 transition-all duration-200 rounded-lg shadow-sm font-medium"
               >
-                <LinkedinLogo className="w-4 h-4 mr-2" />
+                <Linkedin className="w-4 h-4 mr-2" />
                 Follow on LinkedIn
               </Button>
             </motion.div>
@@ -222,7 +222,7 @@ export default function WaitlistPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <Navbar isLoggedIn={false} onLogout={() => {}} />
+      <Navbar />
 
       {/* Hero Section */}
       <section className="py-24 px-4 bg-gradient-to-br from-purple-600 via-blue-600 to-indigo-700 relative overflow-hidden">
@@ -334,7 +334,7 @@ export default function WaitlistPage() {
                       <div className="space-y-2">
                         <Label htmlFor="email" className="text-sm font-medium text-foreground">Email Address *</Label>
                         <div className="relative">
-                          <Envelope className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-5 h-5" />
+                          <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-5 h-5" />
                           <Input
                             id="email"
                             type="email"
@@ -370,7 +370,7 @@ export default function WaitlistPage() {
                       <div className="space-y-2">
                         <Label htmlFor="github" className="text-sm font-medium text-foreground">GitHub Profile (Optional)</Label>
                         <div className="relative">
-                          <GithubLogo className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-5 h-5" />
+                          <Github className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-5 h-5" />
                           <Input
                             id="github"
                             type="text"
@@ -465,7 +465,7 @@ export default function WaitlistPage() {
                       className="w-full"
                       onClick={() => window.open("https://www.linkedin.com/company/mergefund", "_blank")}
                     >
-                      <LinkedinLogo className="w-4 h-4 mr-2" />
+                      <Linkedin className="w-4 h-4 mr-2" />
                       Follow on LinkedIn
                     </Button>
                     <Button
