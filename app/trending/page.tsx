@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { useRouter } from "next/navigation"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -11,8 +12,12 @@ import { useAuth } from "@/lib/auth"
 import { GitHubAPI, type GitHubRepo } from "@/lib/github"
 import { Star, GitFork, ExternalLink, Calendar, TrendingUp, Code, Eye } from "lucide-react"
 
+// Force dynamic rendering to prevent SSG issues with auth
+export const dynamic = 'force-dynamic'
+
 export default function TrendingPage() {
   const { user, loading } = useAuth()
+  const router = useRouter()
   const [repos, setRepos] = useState<GitHubRepo[]>([])
   const [loadingRepos, setLoadingRepos] = useState(true)
   const [timeframe, setTimeframe] = useState<"daily" | "weekly" | "monthly">("weekly")
@@ -89,7 +94,7 @@ export default function TrendingPage() {
   }
 
   if (!user) {
-    window.location.href = "/"
+    router.push("/")
     return null
   }
 
@@ -286,9 +291,14 @@ const mockTrendingRepos: GitHubRepo[] = [
     language: "TypeScript",
     topics: ["ai", "machine-learning", "tools", "awesome-list"],
     updated_at: new Date().toISOString(),
+    created_at: new Date().toISOString(),
+    open_issues_count: 45,
+    size: 15000,
+    default_branch: "main",
     owner: {
       login: "developer",
       avatar_url: "/placeholder.svg?height=40&width=40",
+      type: "User",
     },
   },
   {
@@ -302,9 +312,14 @@ const mockTrendingRepos: GitHubRepo[] = [
     language: "JavaScript",
     topics: ["framework", "web", "react", "nextjs"],
     updated_at: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(),
+    created_at: new Date().toISOString(),
+    open_issues_count: 23,
+    size: 8500,
+    default_branch: "main",
     owner: {
       login: "techcorp",
       avatar_url: "/placeholder.svg?height=40&width=40",
+      type: "Organization",
     },
   },
 ]

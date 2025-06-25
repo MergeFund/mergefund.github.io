@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { useRouter } from "next/navigation"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -12,8 +13,12 @@ import { GitHubAPI, type GitHubRepo } from "@/lib/github"
 import { Star, GitFork, ExternalLink, Calendar, TrendingUp, Code, Eye } from "lucide-react"
 import Link from "next/link"
 
+// Force dynamic rendering to prevent SSG issues with auth
+export const dynamic = 'force-dynamic'
+
 export default function MostStarredPage() {
   const { user, loading } = useAuth()
+  const router = useRouter()
   const [repos, setRepos] = useState<GitHubRepo[]>([])
   const [loadingRepos, setLoadingRepos] = useState(true)
   const [language, setLanguage] = useState<string>("all")
@@ -87,7 +92,7 @@ export default function MostStarredPage() {
   }
 
   if (!user) {
-    window.location.href = "/"
+    router.push("/")
     return null
   }
 

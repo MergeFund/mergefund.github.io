@@ -13,6 +13,9 @@ import { WalletService } from "@/lib/wallet"
 import { supabase } from "@/lib/supabase"
 import { Heart, DollarSign } from "lucide-react"
 
+// Force dynamic rendering to prevent SSG issues with auth
+export const dynamic = 'force-dynamic'
+
 export default function RepoPage() {
   const params = useParams()
   const { user } = useAuth()

@@ -2,6 +2,7 @@ import type React from "react"
 import type { Metadata } from "next"
 import { Poppins } from "next/font/google"
 import "./globals.css"
+import { AuthProvider } from "@/lib/auth"
 
 const poppins = Poppins({
   weight: ["300", "400", "500", "600", "700", "800", "900"],
@@ -23,7 +24,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${poppins.variable} font-sans antialiased`}>
-        <div className="min-h-screen bg-white dark:bg-gray-900">{children}</div>
+        <AuthProvider>
+          <div className="min-h-screen bg-white dark:bg-gray-900">{children}</div>
+        </AuthProvider>
       </body>
     </html>
   )

@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { useRouter } from "next/navigation"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -9,6 +10,9 @@ import { Sidebar } from "@/components/layout/sidebar"
 import { Header } from "@/components/layout/header"
 import { useAuth } from "@/lib/auth"
 import { BarChart, LineChart, TrendingUp, Download, Share, Calendar, DollarSign, Users, Trophy } from "lucide-react"
+
+// Force dynamic rendering to prevent SSG issues with auth
+export const dynamic = 'force-dynamic'
 
 interface Report {
   id: string
@@ -25,6 +29,7 @@ interface Report {
 
 export default function ReportsPage() {
   const { user, loading } = useAuth()
+  const router = useRouter()
   const [reports, setReports] = useState<Report[]>([])
   const [selectedPeriod, setSelectedPeriod] = useState("last-30-days")
   const [selectedReport, setSelectedReport] = useState<Report | null>(null)
@@ -99,7 +104,7 @@ export default function ReportsPage() {
   }
 
   if (!user) {
-    window.location.href = "/"
+    router.push("/")
     return null
   }
 
